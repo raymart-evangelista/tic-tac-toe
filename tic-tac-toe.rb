@@ -51,9 +51,6 @@ class Game
     end
   end
 
-  def print_backend
-  end
-
   def update_interface(index, letter)
     @interface[index] = letter
     print_interface
@@ -111,6 +108,14 @@ class Game
     end
   end
 
+  def draw?
+    if @backend.include?(0)
+      return false
+    else
+      return true
+    end
+  end
+
   def ask_input(player)
     # keep asking for a valid index while the index given is taken
     valid_input = false
@@ -123,6 +128,10 @@ class Game
     # once we have valid input, update the backend board
     update_backend(index, player.number)
     update_interface(index, player.letter)
+  end
+
+  def winner(player)
+    puts "#{player.name} wins the game of tic-tac-toe!"
   end
 end
 
@@ -160,4 +169,11 @@ until game_finished
   game.ask_input(current_player)
   players.push(current_player)
   game_finished = game.winner?(current_player)
+  if game.winner?(current_player)
+    game_finished = true
+    game.winner(current_player)
+  elsif game.draw?
+    game_finished = true
+    puts "DRAW"
+  end
 end

@@ -90,11 +90,9 @@ class Game
   end
 
   def draw?
-    if @backend.include?(0)
-      return false
-    else
-      return true
-    end
+    return false if @backend.include?(0)
+
+    true
   end
 
   def ask_input(player)
@@ -141,16 +139,17 @@ def ask_name(number)
 end
 
 # get player info
-
 player_one = Player.new(ask_name(1), 1, 'x')
 player_two = Player.new(ask_name(2), 2, 'o')
 
+# store player objects in array
 players = [player_one, player_two]
 
+# start a new game with players
 game = Game.new(player_one, player_two)
 
+# start game
 game_finished = false
-
 until game_finished
   current_player = players.shift
   game.ask_input(current_player)

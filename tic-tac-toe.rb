@@ -1,32 +1,12 @@
-# 0 1 2 
-# 3 4 5
-# 6 7 8
-
-# 1 1 1 -> 3
-# 2 1 0 -> 3
-
-# 1 2 1 -> 4
-# 2 1 2 -> 5
-# 1 2 1 -> 4
-
-# 4 5 4
-
-# diag 3 3
-
-# 1 1 1 -> 3
-# 2 2 2 -> 6
-
 # Game class is a blueprint for a game of tic tac toe
 class Game
   def initialize(player_one, player_two)
     @player_one = player_one
-
     @player_two = player_two
-
     @interface = create_interface
     print_interface
     @backend = create_backend
-    p @backend
+    # p @backend
   end
 
   def create_interface
@@ -38,6 +18,7 @@ class Game
   end
 
   def print_interface
+    puts ''
     row = ''
     row_counter = 0
     @interface.each_index do |idx|
@@ -58,7 +39,7 @@ class Game
 
   def update_backend(index, number)
     @backend[index] = number
-    p @backend
+    # p @backend
   end
 
   def winner?(player)
@@ -121,9 +102,14 @@ class Game
     valid_input = false
     until valid_input == true
       puts "#{player.name}, enter a number that corresponds to the game board: "
-      number = Integer(gets.chomp)
-      index = number - 1
-      valid_input = space_taken?(index) == false
+      begin
+        number = Integer(gets.chomp)
+        index = number - 1
+        valid_input = space_taken?(index) == false
+      rescue ArgumentError
+        puts "Invalid input!"
+        puts ""
+      end
     end
     # once we have valid input, update the backend board
     update_backend(index, player.number)
@@ -144,6 +130,7 @@ class Player
     @number = number
     @letter = letter
     puts "Player #{@name} created with backend number: #{@number} and interface letter: #{@letter}"
+    puts ''
   end
 end
 
@@ -174,6 +161,6 @@ until game_finished
     game.winner(current_player)
   elsif game.draw?
     game_finished = true
-    puts "DRAW"
+    puts 'DRAW'
   end
 end

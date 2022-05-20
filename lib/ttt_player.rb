@@ -10,9 +10,3 @@ class Player
     puts ''
   end
 end
-
-def ask_name(number)
-  puts "What is the name of Player #{number}? "
-
-  gets.chomp
-end

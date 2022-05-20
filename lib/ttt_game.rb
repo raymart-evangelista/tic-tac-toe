@@ -1,12 +1,40 @@
+require 'pry-byebug'
+require_relative '../lib/ttt_player'
+
 # Game class is a blueprint for a game of tic tac toe
 class Game
-  def initialize(player_one, player_two)
-    @player_one = player_one
-    @player_two = player_two
+  attr_accessor :backend
+
+  def initialize
+    @player_one = Player.new(ask_name(1), 1, 'x')
+    @player_two = Player.new(ask_name(2), 2, 'o')
+    @players = [@player_one, @player_two]
     @interface = create_interface
-    print_interface
     @backend = create_backend
+    print_interface
     # p @backend
+  end
+
+  def play_game
+    game_finished = false
+    until game_finished
+      curr_player = @players.shift
+      ask_input(curr_player)
+      @players.push(curr_player)
+      # game_finished = game.winner?(curr_player)
+      if winner?(curr_player)
+        winner(curr_player)
+        game_finished = true
+      elsif draw?
+        puts 'DRAW'
+        game_finished = true
+      end
+    end
+  end
+
+  def ask_name(number)
+    puts "What is the name of Player #{number}? "
+    gets.chomp
   end
 
   def create_interface
@@ -105,8 +133,8 @@ class Game
         index = number - 1
         valid_input = space_taken?(index) == false
       rescue ArgumentError
-        puts "Invalid input!"
-        puts ""
+        puts 'Invalid input!'
+        puts ''
       end
     end
     # once we have valid input, update the backend board
@@ -118,3 +146,4 @@ class Game
     puts "#{player.name} wins the game of tic-tac-toe!"
   end
 end
+

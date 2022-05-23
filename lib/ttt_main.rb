@@ -1,3 +1,4 @@
+# require_relative '../lib/ttt_game'
 require_relative '../lib/ttt_game'
 require_relative '../lib/ttt_player'
 
